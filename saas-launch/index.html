@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -10,36 +11,111 @@
 
   <!-- AOS (Animate On Scroll) -->
   <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <link href="css/style.css" rel="stylesheet">
   <style>
     /* Small, optional utilities */
-    .glass { background: rgba(255,255,255,0.06); backdrop-filter: blur(6px); }
+    .glass {
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(6px);
+    }
   </style>
 </head>
-<body class="antialiased text-slate-900 bg-slate-50">
 
-  <!-- NAV -->
-  <header class="sticky top-0 z-40 bg-white/60 backdrop-blur-sm border-b border-slate-200">
-    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+<body class="antialiased text-slate-900 bg-slate-50 overflow-x-hidden">
+
+  <!-- ===== FIXED HEADER + SLIDE-IN DRAWER (mobile) ===== -->
+  <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-sm border-b border-slate-200 h-full">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <div class="h-10 w-10 bg-gradient-to-br from-indigo-500 to-pink-500 rounded-md flex items-center justify-center text-white font-semibold">FN</div>
+        <div
+          class="h-10 w-10 bg-gradient-to-br from-indigo-500 to-pink-500 rounded-md flex items-center justify-center text-white font-semibold">
+          FN</div>
         <div>
-          <a href="#" class="font-semibold text-lg">FrontNova</a>
-          <div class="text-xs text-slate-500">Tailwind templates & UI kits</div>
+          <a href="#" class="font-semibold text-lg leading-tight">FrontNova</a>
+          <div class="text-xs text-slate-500 -mt-0.5">Templates & UI kits</div>
         </div>
       </div>
 
+      <!-- Desktop nav -->
       <nav class="hidden md:flex items-center gap-6 text-sm text-slate-700">
         <a href="#features" class="hover:text-slate-900">Features</a>
         <a href="#pricing" class="hover:text-slate-900">Pricing</a>
         <a href="#demo" class="hover:text-slate-900">Demo</a>
-        <a href="#contact" class="px-3 py-2 bg-indigo-600 text-white rounded-md shadow hover:bg-indigo-700">Buy on Gumroad</a>
+        <a href="#contact" class="px-3 py-2 bg-indigo-600 text-white rounded-md shadow hover:bg-indigo-700">Buy on
+          Gumroad</a>
       </nav>
 
-      <!-- mobile menu (simple) -->
-      <div class="md:hidden">
-        <button id="mobileToggle" class="p-2 rounded-md bg-slate-100">Menu</button>
+      <!-- Mobile -->
+      <div class="md:hidden flex items-center gap-3">
+        <a href="#contact" class="text-sm px-3 py-2 border rounded-md">Buy</a>
+        <button id="drawerBtn" aria-expanded="false" aria-controls="mobileDrawer"
+          class="p-2 rounded-md bg-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-300">
+          <span class="sr-only">Open menu</span>
+          <svg id="drawerIcon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
       </div>
     </div>
+
+    <!-- Backdrop (place as a direct child of <body>) -->
+    <div id="drawerBackdrop"
+      class="fixed inset-0 bg-black/40 opacity-0 pointer-events-none transition-opacity duration-300 z-[1150]">
+    </div>
+
+    <!-- Drawer: fixed, full-height, scrollable content -->
+    <aside id="mobileDrawer" class="fixed inset-y-0 right-0 w-full max-w-xs sm:max-w-sm bg-white shadow-2xl border-l border-slate-200 
+         transform translate-x-full transition-transform duration-300 ease-in-out z-[1200]" aria-hidden="true"
+      role="dialog" aria-label="Mobile menu">
+      <div class="h-full flex flex-col">
+        <!-- header of drawer -->
+        <div class="px-4 sm:px-6 py-4 flex items-center justify-between border-b border-slate-100">
+          <div class="flex items-center gap-3">
+            <div
+              class="h-8 w-8 bg-gradient-to-br from-indigo-500 to-pink-500 rounded-md flex items-center justify-center text-white font-semibold">
+              FN</div>
+            <div>
+              <div class="font-medium">FrontNova</div>
+              <div class="text-xs text-slate-500">Templates & UI kits</div>
+            </div>
+          </div>
+          <button id="drawerClose" class="p-2 rounded-md text-slate-600 hover:bg-slate-100 focus:outline-none"
+            aria-label="Close menu">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+
+        <!-- nav / content (scrolls inside drawer) -->
+        <nav class="px-4 sm:px-6 py-5 overflow-auto flex-1 flex flex-col justify-between">
+          <div>
+            <a href="#features"
+              class="block py-3 text-base font-medium text-slate-700 hover:text-slate-900">Features</a>
+            <a href="#pricing" class="block py-3 text-base font-medium text-slate-700 hover:text-slate-900">Pricing</a>
+            <a href="#demo" class="block py-3 text-base font-medium text-slate-700 hover:text-slate-900">Demo</a>
+
+            <div class="mt-4">
+              <a href="#contact"
+                class="inline-block px-4 py-2 bg-indigo-600 text-white rounded-md w-full text-center">Buy
+                on Gumroad</a>
+            </div>
+
+            <div class="mt-6 border-t pt-4 text-sm text-slate-600">
+              <div class="font-medium mb-2">Quick Links</div>
+              <a href="#" class="block py-2">Documentation</a>
+              <a href="#" class="block py-2">Support</a>
+              <a href="#" class="block py-2">Terms</a>
+            </div>
+          </div>
+
+          <!-- optional extras at bottom to avoid overlap with header -->
+          <div class="mt-6 pb-6 text-xs text-slate-500">
+            <div>Contact: <a href="mailto:your@email.com" class="text-indigo-600">your@email.com</a></div>
+          </div>
+        </nav>
+      </div>
+    </aside>
   </header>
 
   <!-- HERO -->
@@ -50,16 +126,17 @@
           Launch faster with <span class="text-indigo-600">clean Tailwind landing pages</span>
         </h1>
         <p class="mt-4 text-lg text-slate-600">
-          A pack of 4 production-ready landing templates — SaaS, App, Agency & Portfolio. Lightweight, responsive, and animation-ready. Deploy in minutes.
+          A pack of 4 production-ready landing templates — SaaS, App, Agency & Portfolio. Lightweight, responsive, and
+          animation-ready. Deploy in minutes.
         </p>
 
-        <div class="mt-6 flex gap-3">
-          <a href="#pricing" class="inline-flex items-center gap-2 px-5 py-3 bg-indigo-600 text-white rounded-md shadow hover:bg-indigo-700">
-            Buy Intro — ₹999
-          </a>
-          <a href="#demo" class="inline-flex items-center gap-2 px-5 py-3 border border-slate-200 rounded-md hover:shadow">
-            Live demo
-          </a>
+        <div class="mt-6 flex flex-col sm:flex-row gap-3">
+          <a href="#"
+            class="inline-block bg-indigo-600 text-white py-2 px-4 sm:px-6 rounded-md hover:bg-indigo-700 btn-nowrap text-sm w-1/2 text-center">Buy
+            on Gumroad</a>
+          <a href="#demo"
+            class="inline-block border border-slate-300 py-2 px-4 sm:px-6 rounded-md hover:bg-slate-50 btn-nowrap text-sm w-1/2 text-center">View
+            demo</a>
         </div>
 
         <div class="mt-6 flex items-center gap-6 text-sm text-slate-500">
@@ -69,17 +146,25 @@
         </div>
       </div>
 
+      <!-- FRONTNOVA HERO MOCKUP SLIDER -->
       <div data-aos="fade-left" class="relative">
-        <!-- Placeholder phone mockup / image -->
-        <div class="h-80 bg-gradient-to-br from-white to-slate-100 rounded-2xl shadow-lg flex items-center justify-center">
-          <img src="assets/screenshot-rocks.png" alt="Demo screenshot" class="rounded-lg max-h-[72%] object-cover">
-        </div>
-        <div class="absolute -bottom-6 left-8 bg-white rounded-lg p-3 shadow-md border border-slate-100 flex items-center gap-3">
-          <img src="https://via.placeholder.com/40" class="h-10 w-10 rounded" alt="avatar">
-          <div>
-            <div class="text-sm font-medium">Used by indie founders</div>
-            <div class="text-xs text-slate-500">Deploy on Vercel / Netlify</div>
+        <div id="fn-slider"
+          class="relative w-full max-w-[520px] h-80 mx-auto rounded-2xl overflow-hidden shadow-lg bg-white">
+
+          <!-- slides -->
+          <div class="absolute inset-0">
+            <img src="assets/dashboard_mockup.png" alt="dashboard-mockup"
+              class="fn-slide w-full h-full object-contain rounded-2xl opacity-0 transition-all duration-[1200ms] ease-[cubic-bezier(0.45,0,0.55,1)] scale-[1.03]">
+            <img src="assets/feature_mockup.png" alt="feature-mockup"
+              class="fn-slide w-full h-full object-contain rounded-2xl opacity-0 transition-all duration-[1200ms] ease-[cubic-bezier(0.45,0,0.55,1)] scale-[1.03]">
+            <img src="assets/hero_mockup.png" alt="hero-mockup"
+              class="fn-slide w-full h-full object-contain rounded-2xl opacity-0 transition-all duration-[1200ms] ease-[cubic-bezier(0.45,0,0.55,1)] scale-[1.03]">
+            <img src="assets/laptop_mobile_mockup.png" alt="laptop-mobile-mockup"
+              class="fn-slide w-full h-full object-contain rounded-2xl opacity-0 transition-all duration-[1200ms] ease-[cubic-bezier(0.45,0,0.55,1)] scale-[1.03]">
           </div>
+
+          <!-- Always-visible indicators -->
+          <div id="fn-dots" class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 z-10"></div>
         </div>
       </div>
     </section>
@@ -100,44 +185,92 @@
       </div>
     </section>
 
-    <!-- PRICING -->
-    <section id="pricing" class="mt-16">
-      <h2 class="text-2xl font-bold">Pricing</h2>
-      <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div data-aos="zoom-in" class="p-6 border rounded-xl bg-white">
-          <div class="text-sm text-slate-500">Starter</div>
-          <div class="mt-2 text-3xl font-extrabold">₹999</div>
-          <p class="mt-3 text-sm text-slate-600">4 landing templates | Demo link | README</p>
-          <ul class="mt-4 text-sm text-slate-600 space-y-2">
-            <li>• Responsive</li>
-            <li>• AOS Animations</li>
-            <li>• SEO-ready markup</li>
-          </ul>
-          <a href="#" class="mt-6 inline-block px-4 py-2 bg-indigo-600 text-white rounded-md">Buy on Gumroad</a>
-        </div>
-        
-        <div data-aos="zoom-in" data-aos-delay="100" class="p-6 border rounded-xl bg-white">
-          <div class="text-sm text-slate-500">Components Pack</div>
-          <div class="mt-2 text-3xl font-extrabold">₹599</div>
-          <p class="mt-3 text-sm text-slate-600">30 reusable Tailwind components</p>
-          <ul class="mt-4 text-sm text-slate-600 space-y-2">
+    <!-- ===== PRICING SECTION (responsive + animated badge) ===== -->
+    <section id="pricing" class="mt-20">
+      <div class="max-w-6xl mx-auto px-6 text-center">
+        <h2 class="text-3xl font-bold">Choose your plan</h2>
+        <p class="text-slate-500 mt-2">Main pack for fast launches, add components or grab the full bundle and save.</p>
+      </div>
+
+      <div class="mt-10 max-w-6xl mx-auto px-6 grid gap-8 lg:grid-cols-3 items-start">
+        <!-- Add-on (left) -->
+        <div class="order-2 md:order-1 p-6 bg-white border rounded-xl shadow-sm hover:shadow-md transition">
+          <div class="text-sm text-slate-500 mb-2">Add-on</div>
+          <h3 class="text-lg font-semibold">UI Components Pack</h3>
+          <div class="text-2xl font-extrabold mt-3">₹599</div>
+          <p class="mt-3 text-sm text-slate-600">30+ reusable Tailwind components to speed up builds.</p>
+          <ul class="mt-4 text-sm text-slate-600 space-y-1">
             <li>• Buttons, navbars, modals</li>
-            <li>• Pricing grids</li>
-            <li>• Dark/light examples</li>
+            <li>• Pricing grids & cards</li>
+            <li>• Dark / Light examples</li>
           </ul>
-          <a href="#" class="mt-6 inline-block px-4 py-2 border rounded-md">Buy on Gumroad</a>
+          <a href="#" class="block mt-6 border border-slate-300 py-2 rounded-md text-center hover:bg-slate-50">Buy on
+            Gumroad</a>
         </div>
 
-        <div data-aos="zoom-in" data-aos-delay="200" class="p-6 border rounded-xl bg-white">
-          <div class="text-sm text-slate-500">Figma → Tailwind Toolkit</div>
-          <div class="mt-2 text-3xl font-extrabold">₹1,999</div>
-          <p class="mt-3 text-sm text-slate-600">Semi-automated workflow + script + guide</p>
-          <ul class="mt-4 text-sm text-slate-600 space-y-2">
+        <!-- Main / Highlighted (center) with animated badge -->
+        <div
+          class="order-1 md:order-2 relative p-6 bg-white border-2 border-indigo-500 rounded-xl shadow-lg transform lg:scale-105">
+          <!-- Animated badge -->
+          <div class="absolute -top-5 right-5">
+            <div
+              class="inline-flex items-center gap-3 bg-indigo-600 text-white px-3 py-1 rounded-full shadow-lg animate-badge">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 4v4M12 16v4M4 12h4M16 12h4M7.8 7.8l2.8 2.8M13.4 13.4l2.8 2.8M7.8 16.2l2.8-2.8M13.4 10.6l2.8-2.8" />
+              </svg>
+              <span class="text-xs font-medium">Best Value</span>
+            </div>
+          </div>
+
+          <div class="text-sm text-slate-500 mb-2">Main Product</div>
+          <h3 class="text-xl font-bold">Landing Page Pack</h3>
+          <div class="text-3xl font-extrabold mt-3 text-indigo-600">₹999</div>
+          <p class="mt-3 text-sm text-slate-600">4 complete landing templates — SaaS, App, Agency, Portfolio.</p>
+          <ul class="mt-4 text-sm text-slate-600 space-y-1">
+            <li>• Production-ready HTML + Tailwind</li>
+            <li>• AOS animations & responsive sections</li>
+            <li>• README + Vercel demo</li>
+          </ul>
+          <div class="mt-6 flex flex-col sm:flex-row md:w-full gap-2 justify-between">
+            <a href="#"
+              class="inline-block bg-indigo-600 text-white py-2 rounded-md hover:bg-indigo-700 text-center w-64 flex-1">Buy
+              on
+              Gumroad</a>
+            <a href="#demo"
+              class="inline-block border border-slate-300 py-2 rounded-md hover:bg-slate-50 text-center w-32">View
+              demo</a>
+          </div>
+          <div class="mt-4 text-xs text-slate-500 text-center">Instant download • Free updates • One-time purchase</div>
+        </div>
+
+        <!-- Toolkit (right) -->
+        <div class="order-3 p-6 bg-white border rounded-xl shadow-sm hover:shadow-md transition">
+          <div class="text-sm text-slate-500 mb-2">Pro Toolkit</div>
+          <h3 class="text-lg font-semibold">Figma → Tailwind Toolkit</h3>
+          <div class="text-2xl font-extrabold mt-3">₹1,999</div>
+          <p class="mt-3 text-sm text-slate-600">Semi-automated workflow, scripts, and video guide.</p>
+          <ul class="mt-4 text-sm text-slate-600 space-y-1">
             <li>• PDF guide</li>
-            <li>• Demo script</li>
+            <li>• Demo conversion script</li>
             <li>• Video walkthrough</li>
           </ul>
-          <a href="#" class="mt-6 inline-block px-4 py-2 border rounded-md">Buy on Gumroad</a>
+          <a href="#" class="block mt-6 border border-slate-300 py-2 rounded-md text-center hover:bg-slate-50">Buy on
+            Gumroad</a>
+        </div>
+      </div>
+
+      <!-- Bundle (full width below) -->
+      <div class="max-w-4xl mx-auto mt-10 px-6">
+        <div class="text-center border rounded-xl p-6 bg-gradient-to-r from-indigo-50 to-white shadow-sm">
+          <div class="text-sm text-slate-600">💎 Save more with the complete bundle</div>
+          <h3 class="text-2xl font-bold mt-2">FrontNova Complete Pack</h3>
+          <div class="text-3xl font-extrabold mt-3 text-indigo-600">₹2,499 <span
+              class="text-sm font-medium text-slate-500"> (Save 20%)</span></div>
+          <p class="mt-3 text-sm text-slate-600">All templates + components + toolkit — best for agencies and power
+            users.</p>
+          <a href="#" class="mt-4 inline-block bg-indigo-600 text-white py-2 px-6 rounded-md hover:bg-indigo-700">Buy
+            Complete Bundle</a>
         </div>
       </div>
     </section>
@@ -170,8 +303,10 @@
         </div>
 
         <div class="flex flex-col gap-2">
-          <div>Email: <a href="support@frontnovastudio.com" class="text-indigo-600">support@frontnovastudio.com</a></div>
-          <div>Twitter: <a href="https://x.com/RUndaviya93010" target="_blank" class="text-indigo-600">@RUndaviya93010</a></div>
+          <div>Email: <a href="support@frontnovastudio.com" class="text-indigo-600">support@frontnovastudio.com</a>
+          </div>
+          <div>Twitter: <a href="https://x.com/RUndaviya93010" target="_blank"
+              class="text-indigo-600">@RUndaviya93010</a></div>
         </div>
       </div>
     </footer>
@@ -187,5 +322,223 @@
       btn.addEventListener('click', () => alert('Mobile menu placeholder — replace with your mobile nav.'));
     }
   </script>
+
+  <!-- ===== SCRIPT: hamburger toggle + outside-click close =====
+  <script>
+    (function () {
+      const btn = document.getElementById('hamburgerBtn');
+      const menu = document.getElementById('mobileMenu');
+      const hamIcon = document.getElementById('hamIcon');
+
+      if (!btn || !menu) return;
+
+      function openMenu() {
+        menu.classList.remove('hidden');
+        btn.setAttribute('aria-expanded', 'true');
+        // change to X icon
+        hamIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>';
+      }
+
+      function closeMenu() {
+        menu.classList.add('hidden');
+        btn.setAttribute('aria-expanded', 'false');
+        // revert to hamburger icon
+        hamIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>';
+      }
+
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (menu.classList.contains('hidden')) openMenu(); else closeMenu();
+      });
+
+      // close on outside click
+      document.addEventListener('click', (ev) => {
+        if (!menu.classList.contains('hidden')) {
+          const withinMenu = ev.composedPath().includes(menu) || ev.composedPath().includes(btn);
+          if (!withinMenu) closeMenu();
+        }
+      });
+
+      // close on Esc
+      document.addEventListener('keydown', (ev) => {
+        if (ev.key === 'Escape') closeMenu();
+      });
+    })();
+  </script> -->
+
+  <!-- ===== NEW SCRIPT (drawer open/close + body scroll lock + accessibility) ===== -->
+  <script>
+    (function () {
+      const drawerBtn = document.getElementById('drawerBtn');
+      const drawer = document.getElementById('mobileDrawer');
+      const backdrop = document.getElementById('drawerBackdrop');
+      const drawerClose = document.getElementById('drawerClose');
+      const drawerIcon = document.getElementById('drawerIcon');
+
+      if (!drawerBtn || !drawer || !backdrop) return;
+
+      let scrollPosition = 0;
+
+      function lockBodyScroll() {
+        // save scroll
+        scrollPosition = window.scrollY || window.pageYOffset;
+        // apply class to lock and set top to negative scroll to prevent jump
+        document.documentElement.classList.add('drawer-open');
+        document.body.classList.add('drawer-open');
+        // document.body.style.top = `-${scrollPosition}px`;
+      }
+
+      function unlockBodyScroll() {
+        document.documentElement.classList.remove('drawer-open');
+        document.body.classList.remove('drawer-open');
+        document.body.style.top = '';
+        // restore scroll
+        window.scrollTo(0, scrollPosition);
+      }
+
+      function openDrawer() {
+        drawer.style.transform = 'translateX(0) 260ms ease-in-out';
+        drawer.setAttribute('aria-hidden', 'false');
+        backdrop.classList.remove('opacity-0', 'pointer-events-none');
+        backdrop.classList.add('opacity-100', 'pointer-events-auto');
+        drawerBtn.setAttribute('aria-expanded', 'true');
+        // icon -> X
+        if (drawerIcon) drawerIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>';
+        lockBodyScroll();
+      }
+
+      function closeDrawer() {
+        drawer.style.transform = 'translateX(100%) 260ms ease-in-out';
+        drawer.setAttribute('aria-hidden', 'true');
+        backdrop.classList.remove('opacity-100', 'pointer-events-auto');
+        backdrop.classList.add('opacity-0', 'pointer-events-none');
+        drawerBtn.setAttribute('aria-expanded', 'false');
+        if (drawerIcon) drawerIcon.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>';
+        unlockBodyScroll();
+      }
+
+      drawerBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = drawer.getAttribute('aria-hidden') === 'false';
+        isOpen ? closeDrawer() : openDrawer();
+      });
+
+      if (drawerClose) drawerClose.addEventListener('click', closeDrawer);
+      backdrop.addEventListener('click', closeDrawer);
+
+      // close on Escape
+      document.addEventListener('keydown', (ev) => {
+        if (ev.key === 'Escape') closeDrawer();
+      });
+
+      // keep clicks inside drawer from bubbling up
+      drawer.addEventListener('click', (ev) => ev.stopPropagation());
+    })();
+  </script>
+  <script>
+    (function () {
+      const backdrop = document.getElementById('drawerBackdrop');
+      const drawer = document.getElementById('mobileDrawer');
+
+      function showBackdrop() {
+        backdrop.classList.remove('opacity-0', 'pointer-events-none');
+        backdrop.classList.add('opacity-100');
+        // show drawer
+        drawer.style.transform = 'translateX(0)';
+        drawer.setAttribute('aria-hidden', 'false');
+      }
+
+      function hideBackdrop() {
+        backdrop.classList.add('opacity-0', 'pointer-events-none');
+        backdrop.classList.remove('opacity-100');
+        // hide drawer
+        drawer.style.transform = 'translateX(100%)';
+        drawer.setAttribute('aria-hidden', 'true');
+      }
+
+      // example usage: hook these to your open/close buttons
+      document.getElementById('drawerBtn')?.addEventListener('click', showBackdrop);
+      document.getElementById('drawerClose')?.addEventListener('click', hideBackdrop);
+      backdrop?.addEventListener('click', hideBackdrop);
+    })();
+  </script>
+  <!-- Slider script: autoplay, controls, keyboard, touch -->
+  <script>
+    (function () {
+      const slider = document.getElementById('fn-slider');
+      if (!slider) return;
+
+      const slides = Array.from(slider.querySelectorAll('.fn-slide'));
+      const dotsWrap = document.getElementById('fn-dots');
+
+      let current = 0;
+      const autoplayMs = 3500;
+      let autoplayId = null;
+      let isPaused = false;
+
+      // Create dots
+      slides.forEach((s, i) => {
+        const d = document.createElement('button');
+        d.className = 'fn-dot';
+        d.setAttribute('aria-label', 'Slide ' + (i + 1));
+        d.setAttribute('data-index', i);
+        d.style.border = 'none';
+        d.style.cursor = 'pointer';
+        dotsWrap.appendChild(d);
+      });
+      const dots = Array.from(dotsWrap.children);
+
+      function show(index) {
+        slides.forEach((s, i) => {
+          s.classList.remove('active', 'prev');
+          if (i === index) s.classList.add('active');
+          else if (i === (index - 1 + slides.length) % slides.length) s.classList.add('prev');
+        });
+        dots.forEach((d, i) => d.classList.toggle('active', i === index));
+        current = index;
+      }
+
+      function next() {
+        const nextIndex = (current + 1) % slides.length;
+        show(nextIndex);
+      }
+
+      function startAutoplay() {
+        stopAutoplay();
+        autoplayId = setInterval(() => { if (!isPaused) next(); }, autoplayMs);
+      }
+
+      function stopAutoplay() {
+        if (autoplayId) clearInterval(autoplayId);
+        autoplayId = null;
+      }
+
+      // Dots click
+      dotsWrap.addEventListener('click', (e) => {
+        if (e.target.classList.contains('fn-dot')) {
+          const idx = parseInt(e.target.getAttribute('data-index'));
+          show(idx);
+          startAutoplay();
+        }
+      });
+
+      // Hover pause
+      slider.addEventListener('mouseenter', () => { isPaused = true; });
+      slider.addEventListener('mouseleave', () => { isPaused = false; });
+
+      // Touch swipe
+      let startX = 0;
+      slider.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+      slider.addEventListener('touchend', e => {
+        const dx = e.changedTouches[0].clientX - startX;
+        if (Math.abs(dx) > 30) { dx < 0 ? next() : show((current - 1 + slides.length) % slides.length); }
+      }, { passive: true });
+
+      // Init
+      show(0);
+      startAutoplay();
+    })();
+  </script>
 </body>
+
 </html>
