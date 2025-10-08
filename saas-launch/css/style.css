@@ -7,6 +7,7 @@ main {
     padding-top: var(--fn-header-h);
 }
 
+/* Safety: make sure drawer hidden by default (fallback) */
 #mobileDrawer[aria-hidden="true"] {
     transform: translateX(100%) !important;
 }
@@ -31,18 +32,18 @@ main {
 /* Backdrop stacking */
 #drawerBackdrop {
     position: fixed;
-    /* must be fixed */
     top: 0;
     left: 0;
     width: 100%;
     height: 100dvh;
-    /* covers mobile UI areas reliably */
     will-change: opacity;
     transition: opacity 260ms ease;
     z-index: 1150;
+    pointer-events: none;
+    opacity: 0;
 }
 
-/* When drawer is visible we remove translate via JS class toggles (no layout thrash) */
+/* when drawer open class (body lock) */
 .drawer-open-body {
     position: fixed;
     width: 100%;
@@ -50,7 +51,7 @@ main {
     left: 0;
 }
 
-/* Button nowrap utility for the highlighted CTA */
+/* Button nowrap utility for CTA */
 .btn-nowrap {
     white-space: nowrap;
 }
@@ -60,8 +61,6 @@ main {
     .price-large {
         font-size: 1.8rem;
     }
-
-    /* reduce the large price a bit */
 }
 
 /* iPad mini / small tablets — ensure grid stacks cleanly and cards shrink */
@@ -73,8 +72,6 @@ main {
     .highlight-card {
         transform: none !important;
     }
-
-    /* avoid scale on small screens */
 }
 
 /* Avoid hero overlap if hero uses negative margins elsewhere */
@@ -89,7 +86,7 @@ main {
     transition: opacity 260ms ease, transform 260ms ease;
 }
 
-/* ensure slides layer properly */
+/* Slider styles */
 .fn-slide {
     position: absolute;
     left: 0;
@@ -110,8 +107,8 @@ main {
 }
 
 .fn-dot {
-    width: 5px;
-    height: 5px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
     background: rgba(100, 116, 139, 0.3);
     transition: all 0.3s ease;
@@ -120,4 +117,26 @@ main {
 .fn-dot.active {
     background: rgb(79, 70, 229);
     transform: scale(1.2);
+}
+
+/* ultra-small screens (≤360px) tweaks */
+@media (max-width: 360px) {
+    #pricing .p-6 {
+        padding: 1.0rem;
+    }
+
+    /* tighten card padding */
+    #pricing h3 {
+        font-size: 1.05rem;
+    }
+
+    /* slightly smaller headings */
+    #pricing .text-3xl {
+        font-size: 1.6rem;
+    }
+
+    /* tame huge prices */
+    #pricing .text-2xl {
+        font-size: 1.35rem;
+    }
 }
